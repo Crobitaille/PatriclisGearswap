@@ -1,0 +1,17 @@
+sets.exported={
+    main="Chatoyant Staff",
+    sub="Achaq Grip",
+    ammo="Leisure Musk +1",
+    head={ name="Vanya Hood", augments={'MND+10','Spell interruption rate down +15%','"Conserve MP"+6',}},
+    body={ name="Vanya Robe", augments={'MND+10','Spell interruption rate down +15%','"Conserve MP"+6',}},
+    hands="Bokwus Gloves",
+    legs={ name="Vanya Slops", augments={'MND+10','Spell interruption rate down +15%','"Conserve MP"+6',}},
+    feet={ name="Medium's Sabots", augments={'MP+50','MND+8','"Conserve MP"+6','"Cure" potency +3%',}},
+    neck="Nodens Gorget",
+    waist="Hachirin-no-Obi",
+    left_ear="Gifted Earring",
+    right_ear="Mendi. Earring",
+    left_ring="Lebeche Ring",
+    right_ring="Resonance Ring",
+    back="Twilight Cape",
+}

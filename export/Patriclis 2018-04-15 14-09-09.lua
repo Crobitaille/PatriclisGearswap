@@ -1,0 +1,18 @@
+sets.exported={
+    main={ name="Rubicundity", augments={'Mag. Acc.+4','"Mag.Atk.Bns."+5','Dark magic skill +2','"Conserve MP"+3',}},
+    sub="Genmei Shield",
+    range="Dunna",
+    ammo="Sapience Orb",
+    head="Azimuth Hood",
+    body={ name="Bagua Tunic +1", augments={'Enhances "Bolster" effect',}},
+    hands="Geo. Mitaines +1",
+    legs={ name="Bagua Pants +1", augments={'Enhances "Mending Halation" effect',}},
+    feet="Azimuth Gaiters +1",
+    neck="Incanter's Torque",
+    waist="Austerity Belt",
+    left_ear="Mendi. Earring",
+    right_ear="Friomisi Earring",
+    left_ring="Stikini Ring",
+    right_ring="Stikini Ring",
+    back={ name="Lifestream Cape", augments={'Geomancy Skill +9','Indi. eff. dur. +17',}},
+}

@@ -1,0 +1,17 @@
+sets.exported={
+    main="Contemplator",
+    sub="Niobid Strap",
+    ammo="Pemphredo Tathlum",
+    head="Jhakri Coronal +1",
+    body="Jhakri Robe +1",
+    hands="Jhakri Cuffs +1",
+    legs={ name="Merlinic Shalwar", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25','"Drain" and "Aspir" potency +8','INT+2','Mag. Acc.+13','"Mag.Atk.Bns."+3',}},
+    feet="Jhakri Pigaches +1",
+    neck="Sanctity Necklace",
+    waist="Refoccilation Stone",
+    left_ear="Friomisi Earring",
+    right_ear="Hecate's Earring",
+    left_ring="Mallquis Ring",
+    right_ring="Acumen Ring",
+    back="Ogapepo Cape",
+}

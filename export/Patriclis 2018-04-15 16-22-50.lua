@@ -1,0 +1,17 @@
+sets.exported={
+    main="Marin Staff +1",
+    sub="Niobid Strap",
+    ammo="Sapience Orb",
+    head={ name="Vanya Hood", augments={'MP+50','"Fast Cast"+10','Haste+2%',}},
+    body="Anhur Robe",
+    hands="Repartie Gloves",
+    legs={ name="Psycloth Lappas", augments={'MP+80','Mag. Acc.+15','"Fast Cast"+7',}},
+    feet="Regal Pumps +1",
+    neck="Voltsurge Torque",
+    waist="Siegel Sash",
+    left_ear="Gifted Earring",
+    right_ear="Loquac. Earring",
+    left_ring="Lebeche Ring",
+    right_ring="Prolix Ring",
+    back={ name="Nantosuelta's Cape", augments={'Eva.+20 /Mag. Eva.+20','Pet: "Regen"+10','Pet: Damage taken -4%',}},
+}
