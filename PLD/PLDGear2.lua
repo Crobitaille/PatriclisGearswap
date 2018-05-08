@@ -16,7 +16,10 @@
 ]]--
 
 function init_gear_sets()
+    sets.engaged = {}
+    
     init_precast_sets()
+    init_midcast_sets()
 end
 
 function init_precast_sets()
@@ -26,7 +29,7 @@ function init_precast_sets()
         head = "Jumalik Helm"
     }
     sets.precast.cure = {}
-    sets.precast.enhancing = {}
+    sets.precast["Enhancing Magic"] = {}
     --JobAbility--PreCast--JobAbility--PreCast--JobAbility--PreCast--JobAbility--PreCast--
     sets.precast["JobAbility"] = {}
     sets.precast["Invincible"] = {}
@@ -51,5 +54,18 @@ function init_precast_sets()
     sets.precast["Atonement"] = {}
     sets.precast["Chant Du Cygne"] = {}
     sets.precast["Requiescat"] = {}
+end
+
+function init_midcast_sets()
+    sets.obi = { 
+        waist = 'Fucho-no-obi', 
+        back = 'Twilight Cape'
+    }
+    
+    sets.midcast = {}
+
+    sets.midcast.magic = {}
+    sets.midcast.cure = {}
+    sets.midcast.cureself = {}
 end
 
