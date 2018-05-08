@@ -33,8 +33,9 @@ function user_setup()
     send_command('bind @0 gs equip sets.magic')
 
     load_blu_maps();
-end
 
+end
+ 
 function user_unload()
     send_command('unbind @1')
     send_command('unbind @2')
@@ -43,7 +44,7 @@ function user_unload()
     send_command('unbind @0')
 end
 
-function job_precast(spell, action, spellMap, eventArgs)
+function job_precast(spell, action, spellMap, eventArgs)    
     if (state.CastingMode.value == 'PL') then 
         equip(sets.precast.weapons)
     end

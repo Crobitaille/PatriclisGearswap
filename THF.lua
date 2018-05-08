@@ -14,7 +14,9 @@
 --]]
 
 -- Initialization function for this job file.
+
 function get_sets()
+
     mote_include_version = 2
     include('organizer-lib')
     -- Load and initialize the include file.
@@ -210,9 +212,9 @@ function init_gear_sets()
         legs = {name = "Samnuha Tights", augments = {'STR+7', '"Dbl.Atk."+2', '"Triple Atk."+1',}},
         feet = {name = "Rawhide Boots", augments = {'STR+10', 'Attack+15', '"Store TP"+5',}},
         neck = "Asperity Necklace",
-        waist = "Windbuffet Belt +1",
+        waist = "Reiki Yotai",
         left_ear = "Brutal Earring",
-        right_ear = "Telos Earring",
+        right_ear = "Suppanomimi",
         left_ring = "Hetairoi Ring",
         right_ring = "Epona's Ring",
         back = "Toutatis's Cape"
@@ -280,6 +282,7 @@ function job_aftercast(spell, action, spellMap, eventArgs)
         state.Buff['Trick Attack'] = false
         state.Buff['Feint'] = false
     end
+    
 end
 
 -- Called after the default aftercast handling is complete.

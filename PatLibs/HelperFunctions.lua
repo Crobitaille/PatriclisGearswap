@@ -33,7 +33,7 @@ function handle_default_precast(spell)
             equip(sets.precast[spell.skill])
     elseif (sets.precast[spell.type]) then --If a set exists for the specific Type: sets.precast["Weaponskill"];
         equip(sets.precast[spell.type])
-    elseif (spell.action_type == 'Magic') then--If the spell is magic
+    elseif (spell.action_type == 'Magic') then --If the spell is magic
         equip(sets.precast.magic) --Equip default set
     end
 end
