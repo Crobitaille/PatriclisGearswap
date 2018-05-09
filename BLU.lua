@@ -33,7 +33,6 @@ function user_setup()
     send_command('bind @0 gs equip sets.magic')
 
     load_blu_maps();
-
 end
  
 function user_unload()
