@@ -17,3 +17,11 @@ end
 function DeleteTextBox(name)
     windower.text.delete(name)
 end
+
+--Formats a boolean for friendly string output
+function bool_to_string(b) 
+    if b then
+        return "True"
+    else
+        return "False"
+end

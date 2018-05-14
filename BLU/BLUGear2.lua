@@ -74,7 +74,7 @@ function load_vars()
     
     SamnuhaCoat = {name = "Samnuha Coat", augments = {'Mag. Acc.+15', '"Mag.Atk.Bns."+15', '"Fast Cast"+5', '"Dual Wield"+5', }}
     
-    SamnuhaPants = {name = "Samnuha Tights", augments = {'STR+7', '"Dbl.Atk."+2', '"Triple Atk."+1', }}
+    SamnuhaTights = {name = "Samnuha Tights", augments = {'STR+7', '"Dbl.Atk."+2', '"Triple Atk."+1', }}
     
     MediumsSabots = {name = "Medium's Sabots", augments = {'MP+50', 'MND+8', '"Conserve MP"+6', '"Cure" potency +3%', }}
     LengoPants = {name = "Lengo Pants", augments = {'INT+7', 'Mag. Acc.+8', '"Mag.Atk.Bns."+7', }}
@@ -504,7 +504,7 @@ function load_engaged()
         head = AdhemarHead.Accuracy,
         body = RawhideBody.TripleAttack,
         hands = AdhemarHands.TP,
-        legs = SamnuhaPants,
+        legs = SamnuhaTights,
         feet = HerculeanFeet.TP,
         neck = "Asperity Necklace",
         waist = "Kentarch Belt +1",
@@ -519,7 +519,7 @@ function load_engaged()
         head = AdhemarHead.Accuracy,
         body = RawhideBody.TripleAttack,
         hands = AdhemarHands.TP,
-        legs = SamnuhaPants,
+        legs = SamnuhaTights,
         feet = HerculeanFeet.TP,
         neck = "Lissome Necklace",
         waist = "Reiki Yotai",
@@ -534,7 +534,7 @@ function load_engaged()
         head = AdhemarHead.Accuracy,
         body = RawhideBody.TripleAttack,
         hands = AdhemarHands.TP,
-        legs = SamnuhaPants,
+        legs = SamnuhaTights,
         feet = HerculeanFeet.TP,
         neck = "Asperity Necklace",
         waist = "Reiki Yotai",
