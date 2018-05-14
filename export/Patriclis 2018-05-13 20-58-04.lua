@@ -1,0 +1,17 @@
+sets.exported={
+    main="Sequence",
+    sub={ name="Colada", augments={'Crit.hit rate+2','AGI+3','Accuracy+11','Attack+18','DMG:+15',}},
+    ammo="Vanir Battery",
+    head="Aya. Zucchetto +2",
+    body="Ayanmo Corazza +1",
+    hands="Aya. Manopolas +1",
+    legs="Aya. Cosciales +1",
+    feet="Aya. Gambieras +1",
+    neck="Twilight Torque",
+    waist="Flume Belt",
+    left_ear="Merman's Earring",
+    right_ear="Merman's Earring",
+    left_ring="Defending Ring",
+    right_ring="Vocane Ring",
+    back={ name="Rosmerta's Cape", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Store TP"+10','Damage taken-5%',}},
+}

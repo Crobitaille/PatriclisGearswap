@@ -342,7 +342,7 @@ function init_healing_sets()
         sub = "Thuellaic Ecu +1",
         ammo = "Incanter stone",
         head = "Ebers Cap",
-        neck = "Incanter's Torque",
+        neck = "Malison medallion",
         ear1 = "Gifted Earring",
         ear2 = "Loquacious Earring",
         body = "Orison Bliaud +2",

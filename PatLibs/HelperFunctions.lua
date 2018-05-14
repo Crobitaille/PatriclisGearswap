@@ -29,9 +29,7 @@ end
 function handle_default_precast(spell)
     if sets.precast[spell.english] then --If a set exists for the specific spell: sets.precast["Spellname"];
         equip(sets.precast[spell.english])
-    elseif (sets.precast[spell.skill]) then --If a set exists for the specific skill: sets.precast["Enhancing Magic"];
-            equip(sets.precast[spell.skill])
-    elseif (sets.precast[spell.type]) then --If a set exists for the specific Type: sets.precast["Weaponskill"];
+    elseif (sets.precast[spell.type]) then --If a set exists for the specific Type: sets.precast["WeaponSkill"] sets.precast["BlueMagic"];
         equip(sets.precast[spell.type])
     elseif (spell.action_type == 'Magic') then --If the spell is magic
         equip(sets.precast.magic) --Equip default set
@@ -41,8 +39,6 @@ end
 function handle_default_midcast(spell)
     if sets.midcast[spell.english] then --If a set exists for the specific spell: sets.precast["Spellname"];
         equip(sets.midcast[spell.english])
-    elseif (sets.midcast[spell.skill]) then --If a set exists for the specific skill: sets.precast["Enhancing Magic"];
-            equip(sets.midcast[spell.skill])
     elseif (sets.midcast[spell.type]) then --If a set exists for the specific Type: sets.precast["Weaponskill"];
         equip(sets.midcast[spell.type])
     elseif (spell.action_type == 'Magic') then--If the spell is magic

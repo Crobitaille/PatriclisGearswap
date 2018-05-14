@@ -323,7 +323,9 @@ function handle_combat_mode(command)
             combat_mode = 'TP'
             add_to_chat(104, '<-- TP MODE ON! -->')
         end
+        add_to_chat(104, (player.equipment.sub))
         if DWOffHands:contains(player.equipment.sub) then
+
             add_to_chat(104, '<-- TP MODE: ' .. dw_modes[tp_mode_index].name .. ' -->')
             add_to_chat(104, 'DW Mode')
             sets.Engaged = dw_modes[tp_mode_index]

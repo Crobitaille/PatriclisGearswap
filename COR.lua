@@ -27,9 +27,7 @@ function job_setup()
 
     -- Weapon Modes --
     combat_mode = "TP"
-    tp_modes = {Sets.one_weapon, Sets.one_weapon_1100, Sets.one_weapon_1200,
-                Sets.dual_wieldII, Sets.dual_wieldII_1100, Sets.dual_wieldII_1200,
-                Sets.dual_wieldIII, Sets.dual_wieldIII_1100, Sets.dual_wieldIII_1200}
+    tp_modes = {Sets.TP, Sets.DW, Sets.DWII}
     tp_mode_index = 1
     tp_mode_size = tablelength(tp_modes)
 

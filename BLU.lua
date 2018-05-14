@@ -1,166 +1,221 @@
 function get_sets()
-    include('organizer-lib')
-    mote_include_version = 2
+    include('BLU/BLUGear2.lua')
+    include('BLU/BLUMaps2.lua')
+    include('PatLibs/TextBoxLib.lua')
+    include('PatLibs/HelperFunctions.lua')
     
-    include('BLU/BLUGear.lua')
-    include('BLU/BLUMaps.lua')
-    include('Mote-Include.lua')
+    job_setup()
+    load_gear_sets()
+    load_blu_maps()
 end
 
 function job_setup()
-    state.Buff['Unbridled Learning'] = buffactive['Unbridled Learning'] or false
+    --Buffs--
+    state = {}
+    state.Buff = {}
+    buffs = S{"Unbridled Learning", "Burst Affinity", "Chain Affinity", "Convergence", "Diffusion", "Efflux"}
+    
+    state.Buff["Unbridled Learning"] = buffactive['Unbridled Learning'] or false
     state.Buff['Burst Affinity'] = buffactive['Burst Affinity'] or false
     state.Buff['Chain Affinity'] = buffactive['Chain Affinity'] or false
     state.Buff.Convergence = buffactive.Convergence or false
     state.Buff.Diffusion = buffactive.Diffusion or false
     state.Buff.Efflux = buffactive.Efflux or false
+    
+    --Weapon Lock--
+    lock_weapons = true
+    lock_cape = false
+    fast_pants = false
+    disable("main")
+    disable("sub")
+    
+    --Combat Mode Stuff--
+    combat_mode = "TP" -- The current combatmode
+    combat_modes = {}
+    combat_modes["TP"] = {"DW0", "DW7", "DW12"} --Table of all available TP Modes "ACC1200", "ACC1300"
+    combat_modes["PDT"] = {"PDT"} --Table of all available PDT Modes
+    combat_modes["MDT"] = {"MDT", "MEVA"} --Table of all available MDT Modes
+    combat_mode_indexes = {}
+    combat_mode_indexes["TP"] = 1 --Index of the current TP mode
+    combat_mode_indexes["PDT"] = 1 --Index of the current PDT mode
+    combat_mode_indexes["MDT"] = 1 --Index of the current MDT mode
+    
+    --Idle Mode Stuff--
+    idle_modes = {"Default", "PDT", "MDT", "MEVA", "Refresh"}
+    idle_mode_index = 1
+    
+    --Keybinds--
+    send_command('bind f9 gs c TP') --Equips / Toggles TP Sets
+    send_command('bind f10 gs c PDT') --Equips / Toggles PDT Sets
+    send_command('bind f11 gs c MDT') --Equips / Toggles MDT Sets
+    send_command('bind f12 gs c IDLE') --Toggles Idle Sets
+    
+    send_command('bind @f9 gs c LockWeapons') --Toggles weapon switching
+    send_command('bind @f12 gs c LockCape') --Toggles weapon switching
+    send_command('bind @f11 gs c FastPants') --Toggles weapon switching
+    
+    send_command('bind @9 gs c MELEE') --Equips Melee Weapons and disables weapon switching
+    send_command('bind @0 gs c MAGIC') --Equips Magic Weapons and enables weapon switching
+    
+    --Textbox Stuff--
+    local str = 'BLU Info\n' ..
+    '-------------------------\n' ..
+    'Combat Mode : ${cbmode|(None)}\n' ..
+    'Idle Mode   : ${idlemode|(None)}\n' ..
+    'Weapon Lock : ${weaponlock|(None)}\n' ..
+    'Cape Lock   : ${capelock|(None)}\n' ..
+    'Fast Pants  : ${fastpants|(None)}'
+    textbox = CreateTextBox(str, 1200, 750)
+    textbox:show()
+    update_info_box()
 end
 
-function user_setup()
-    select_default_macro_book()
-    state.OffenseMode:options('Normal', 'DW', 'DW2')
-    state.HybridMode:options('Normal', 'Acc1100', 'Acc1150', 'AccMax')
-    state.WeaponskillMode:options('Normal', 'Acc')
-    state.CastingMode:options('Normal', 'Resistant', 'PL')
-    state.PhysicalDefenseMode:options('PDT')
-    state.MagicalDefenseMode:options('MDT', 'MEVA')
-    state.IdleMode:options('Normal', 'PDT', 'PL')
-
-    send_command('bind @1 input /ma "Sudden Lunge" <t>')
-    send_command('bind @2 input /ma "Blank Gaze" <t>')
-    send_command('bind @8 gs equip sets.meleeP')
-    send_command('bind @9 gs equip sets.melee')
-    send_command('bind @0 gs equip sets.magic')
-
-    load_blu_maps();
-end
- 
 function user_unload()
-    send_command('unbind @1')
-    send_command('unbind @2')
-    send_command('unbind @8')
+    send_command('unbind f9')
+    send_command('unbind f10')
+    send_command('unbind f11')
+    send_command('unbind f12')
+    
+    send_command('unbind !f9')
+    
     send_command('unbind @9')
-    send_command('unbind @0')
+    send_command('unbind @10')
+    
 end
 
-function job_precast(spell, action, spellMap, eventArgs)    
-    if (state.CastingMode.value == 'PL') then 
-        equip(sets.precast.weapons)
+--[[
+-- Overridden from gearswap.
+-- Is called before the player takes one of the following actions:
+-- Casting a spell, using an ability, using an item.
+]]--
+function precast(spell)
+    -- add_to_chat(104, 'Skill: ' .. spell.skill)
+    add_to_chat(104, 'Type: ' .. spell.type)
+    add_to_chat(104, 'Action_Type: ' .. spell.action_type)
+    handle_default_precast(spell)
+    if buffactive['Reive Mark'] and spell.type == 'WeaponSkill' then
+        equip(sets.reive)
     end
+end
 
-    if spell.skill == 'Healing Magic' or BlueMagic_Healing:contains(spell.english) then
-        if spell.target.type == 'SELF' then
-            gear.default.obi_waist = "Chuq'aba Belt"
+function user_post_precast(spell, action, spellMap, eventArgs)
+    
+end
+
+function aftercast(spell, action)
+    status_change(player.status)
+end
+
+function midcast(spell)
+    if sets.midcast[spell.english] then --If a set exists for the specific spell: sets.precast["Spellname"];
+        equip(sets.midcast[spell.english])
+    elseif (BluMaps["Healing"]:contains(spell.english)) or (string.find(spell.name, "Cur") and spell.name ~= "Cursna") then
+        if spell.target.type == "SELF" then
+            equip(sets.midcast["Healing"].self)
         else
-            gear.default.obi_waist = "Austerity Belt"
+            equip(sets.midcast["Healing"])
         end
-    elseif spell.english == 'White Wind' then
-        gear.default.obi_waist = "Chuq'aba Belt"
-    else
-        gear.default.obi_waist = "Salire Belt"
+    elseif spell.skill == "Blue Magic" then
+        for k in pairs(BluMaps) do
+            if BluMaps[k]:contains(spell.english) then
+                equip(sets.midcast[k])
+                break
+            end
+        end
+    elseif (sets.midcast[spell.skill]) then --If a set exists for the specific skill: sets.precast["Enhancing Magic"];
+        equip(sets.midcast[spell.skill])
+    elseif (sets.midcast[spell.type]) then --If a set exists for the specific Type: sets.precast["Weaponskill"];
+        equip(sets.midcast[spell.type])
+    elseif (spell.action_type == "Magic") then--If the spell is magic
+        equip(sets.midcast.magic) --Equip default set
     end
+    if spell.skill == "Blue Magic" then
+        for b in pairs(buffs) do
+            if buffactive[b] then
+                equip(sets.midcast.buff[b])
+            end
+        end
+    end
+    
+    -- if world.day_element == spell.element or world.weather_element == spell.element then
+    --     equip(sets.weather)
+    -- end
 end
 
-function job_midcast(spell, action, spellMap, eventArgs)
-    if (state.CastingMode.value == 'PL' or state.CastingMode.value == 'Resistant') then 
-        equip(sets.magic)
-    end
-    if spell.skill == 'Healing Magic' then
-        if spell.target.type == 'SELF' then
-            equip(sets.BlueMagic.SelfCures)
+function self_command(command)
+    local modes = T{"TP", "PDT", "MDT"}
+    if (modes:contains(command)) then
+        for k in pairs(modes) do
+            if command == modes[k] then
+                if combat_mode == modes[k] then
+                    combat_mode_indexes[modes[k]] = cycle(combat_modes[modes[k]], combat_mode_indexes[modes[k]])
+                else
+                    combat_mode = modes[k]
+                end
+                break
+            end
+        end
+    elseif (command == "IDLE") then
+        idle_mode_index = cycle(idle_modes, idle_mode_index)
+    elseif (command == "LockCape") then
+        lock_cape = not lock_cape
+        if (lock_cape) then
+            equip({back = CapacityCape})
+            disable("back")
         else
-            equip(sets.BlueMagic.Cures)
+            enable("back")
         end
-    end
-    if spell.skill == 'Enhancing Magic' then
-        if spell.english == 'Refresh' then
-            equip(sets.BlueMagic.Battery)
-        elseif string.find(spell.english,'Shell') then
-            equip(sets.Utility.ProShell)
+    elseif (command == "LockWeapons") then
+        lock_weapons = not lock_weapons
+        if (lock_weapons) then
+            disable("main")
+            disable("sub")
         else
-            equip(sets.Enhancing)
+            enable("main")
+            enable("sub")
         end
-    elseif spell.skill == 'Blue Magic' then
-        if spell.english == 'Battery Charge' then
-            equip(sets.BlueMagic.Battery)
-        elseif spell.english == 'Regeneration' or string.find(spell.english,'Regen') then
-            equip(sets.BlueMagic.Regeneration)
-        elseif PhysicalSpells:contains(spell.english) then
-            if PhysicalBlueMagic_STR:contains(spell.english) then
-                equip(sets.BlueMagic.STR)
-            elseif PhysicalBlueMagic_DEX:contains(spell.english) then
-                equip(sets.BlueMagic.STRDEX)
-            elseif PhysicalBlueMagic_VIT:contains(spell.english) then
-                equip(sets.BlueMagic.STRVIT)
-            elseif PhysicalBlueMagic_AGI:contains(spell.english) then
-                equip(sets.BlueMagic.AGI)
-            elseif PhysicalBlueMagic:contains(spell.english) then
-                equip(sets.BlueMagic.STR)
-            elseif BlueMagic_PhysicalAcc:contains(spell.english) then
-                equip(sets.BlueMagic.HeavyStrike)
-            end
-        elseif MagicalSpells:contains(spell.english) then
-            if BlueMagic_INT:contains(spell.english) then
-                equip(sets.BlueMagic.MAB)
-            elseif BlueMagic_Dark:contains(spell.english) then
-                equip(sets.BlueMagic.DarkNuke)
-            elseif BlueMagic_Light:contains(spell.english) then
-                equip(sets.BlueMagic.LightNuke)
-            elseif BlueMagic_Earth:contains(spell.english) then
-                equip(sets.BlueMagic.MAB)
-            end
-        end
+    elseif (command == "FastPants") then
+        fast_pants = not fast_pants
+    elseif (command == "MELEE") then
+        windower.console.write("Melee")
+        enable("main")
+        enable("sub")
+        equip(sets.weapons.melee)
+        disable("main")
+        disable("sub")
+        lock_weapons = true
+    elseif (command == "MAGIC") then
+        windower.console.write("Magic")
+        enable("main")
+        enable("sub")
+        equip(sets.weapons.magic)
+        lock_weapons = false
+    end
+    status_change(player.status)
+    update_info_box()
+end
 
-        if BlueMagic_Accuracy:contains(spell.english) then
-            equip(sets.BlueMagic.MagicAccuracy)
-        elseif BlueMagic_Stun:contains(spell.english) then
-            equip(sets.BlueMagic.Stun)
-        elseif BlueMagic_Enmity:contains(spell.english) or spell.english == 'Flash' then
-            equip(sets.BlueMagic.Enmity)
-        elseif BlueMagic_Buffs:contains(spell.english) then
-            equip(sets.BlueMagic.Buffs)
-        elseif BlueMagic_Skill:contains(spell.english) then
-            equip(sets.BlueMagic.Skill)
-        elseif spell.english == 'White Wind' then
-            equip(sets.BlueMagic.WhiteWind)
-        elseif BlueMagic_Healing:contains(spell.english) or spell.english == 'Cure IV' or spell.english == 'Cure III' then
-            if spell.target.type == 'SELF' then
-                equip(sets.BlueMagic.SelfCures)
-            else
-                equip(sets.BlueMagic.Cures)
-            end
+function status_change(new, tab, old)
+    if new == 'Idle' then
+        equip(sets.idle[idle_modes[idle_mode_index]])
+        if Town:contains(world.zone) then
+            equip(sets.idle.town)
         end
+        if fast_pants == true then
+            equip({legs = CarmineLegs.Accuracy})
+        end
+    elseif new == 'Engaged' then
+        equip(sets.engaged[combat_modes[combat_mode][combat_mode_indexes[combat_mode]]])
+    end
+    if buffactive['Reive Mark'] and spell.type == 'WeaponSkill' then
+        equip(sets.reive)
     end
 end
 
-function job_post_midcast(spell, action, spellMap, eventArgs)
-    if spell.skill == 'Blue Magic' then
-        for buff,active in pairs(state.Buff) do
-            if active and sets.buff[buff] then
-                equip(sets.buff[buff])
-            end
-        end
-    end
+function update_info_box()
+    textbox.cbmode = combat_modes[combat_mode][combat_mode_indexes[combat_mode]]
+    textbox.idlemode = idle_modes[idle_mode_index]
+    textbox.weaponlock = lock_weapons
+    textbox.capelock = lock_cape
+    textbox.fastpants = fast_pants
 end
-
-function job_buff_change(buff, gain)
-    if state.Buff[buff] ~= nil then
-        state.Buff[buff] = gain
-    end
-end
-
-function customize_idle_set(idleSet)
-    if player.mpp < 51 then
-        set_combine(idleSet, sets.latent_refresh)
-    end
-    return idleSet
-end
-
-function display_current_job_state(eventArgs)
-    display_current_caster_state()
-    eventArgs.handled = true
-end
-
-function select_default_macro_book()
-end
-

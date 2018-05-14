@@ -15,24 +15,24 @@ function init_gear_sets()
 end
 
 function init_item_vars()
+   
+    ArtifactHead = "Reverence Coronet +1"
+    ArtifactBody = "Reverence Surcoat +1"
+    ArtifactHands = "Reverence Gauntlets"
+    ArtifactLegs = "Reverence Breeches +1"
+    ArtifactFeet = "Reverence Leggings +2"
     
-    ArtifactHead = {name="Reverence Coronet +1"}
-    ArtifactBody = {name="Reverence Surcoat +1"}
-    ArtifactHands = {name="Reverence Gauntlets"}
-    ArtifactLegs = {name="Reverence Breeches +1"}
-    ArtifactFeet = {name="Reverence Leggings +2"}
+    RelicHead = "Caballarius Coronet"
+    RelicBody = "Caballarius Surcoat"
+    RelicHands = "Caballarius Gauntlets"
+    RelicLegs = "Caballarius Breeches"
+    RelicFeet = "Caballarius Leggings"
     
-    RelicHead = {name="Caballarius Coronet"}
-    RelicBody = {name="Caballarius Surcoat"}
-    RelicHands = {name="Caballarius Gauntlets"}
-    RelicLegs = {name="Caballarius Breeches"}
-    RelicFeet = {name="Caballarius Leggings"}
-
-    EmpyreanHead = {"Chevalier's Armet"}
-    EmpyreanBody = {"Chevalier's Cuirass"}
-    EmpyreanHands = {"Chevalier's Gauntlets"}
-    EmpyreanLegs = {"Chevalier's Cuisses"}
-    EmpyreanFeet = {"Creed Sabatons +2"}
+    EmpyreanHead = "Chevalier's Armet"
+    EmpyreanBody = "Chevalier's Cuirass"
+    EmpyreanHands = "Chevalier's Gauntlets"
+    EmpyreanLegs = "Chevalier's Cuisses"
+    EmpyreanFeet = "Creed Sabatons +2"
     
     LeylineGloves = {}
     LeylineGloves.FC = {name = "Leyline Gloves", augments = {'Accuracy+15', 'Mag. Acc.+15', '"Mag.Atk.Bns."+15', '"Fast Cast"+3', }}
@@ -64,7 +64,7 @@ function init_item_vars()
     
     RudianosMantle = {}
     RudianosMantle.FC = {name = "Rudianos's Mantle", augments = {'"Fast Cast"+10', }}
-    RudianosMantle.DPS = { name="Rudianos's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','Haste+10','Damage taken-5%',}}
+    RudianosMantle.DPS = {name = "Rudianos's Mantle", augments = {'DEX+20', 'Accuracy+20 Attack+20', 'Accuracy+10', 'Haste+10', 'Damage taken-5%', }}
     
     NuevoCoselete = {name = "Nuevo Coselete", augments = {'Enmity+5', '"Fast Cast"+5', }}
     
@@ -97,11 +97,11 @@ end
 
 function init_item_arrays()
     sets.Weapons = {}
-    DWOffHands = S{'Colada', 'Demersal Degen +1', 'Vampirism'}
-    MainHand = {'Sequence', 'Nixxer', 'Demersal Degen +1', 'Vampirism'}
+    DWOffHands = S{'Colada', 'Demers. Degen +1', 'Vampirism'}
+    MainHand = {'Sequence', 'Nixxer', 'Demers. Degen +1', 'Vampirism'}
     OffHand = {'Aegis', 'Priwen'}
     ShieldOnly = {'Aegis', 'Priwen'}
-    AllOffHands = {'Aegis', 'Priwen', 'Colada', 'Nibiru Blade', 'Demersal Degen +1', 'Vampirism'}
+    AllOffHands = {'Aegis', 'Priwen', 'Colada', 'Nibiru Blade', 'Demers. Degen +1', 'Vampirism'}
 end
 
 function init_utility_sets()
@@ -625,9 +625,9 @@ function init_melee_sets()
         hands = "Sulev. Gauntlets +1",
         legs = CarmineCuisses.DW,
         feet = "Carmine greaves +1",
-        neck = "Asperity Necklace",
+        neck = "Lissome Necklace",
         waist = "Reiki Yotai",
-        left_ear = "Suppanomimi",
+        left_ear = "Telos Earring",
         right_ear = "Brutal Earring",
         left_ring = "Petrov Ring",
         right_ring = "Rajas Ring",
@@ -638,14 +638,14 @@ function init_melee_sets()
         name = "Dual Wield Acc1100",
         ammo = "Ginsen",
         head = "Flam. Zucchetto +2",
-        body = "Sulevia's Plate. +1",
+        body = "Flamma Korazin +1",
         hands = "Sulev. Gauntlets +1",
         legs = CarmineCuisses.DW,
-        feet = "Flam. Gambieras +1",
-        neck = "Sanctity Necklace",
-        waist = "Dynamic Belt",
-        left_ear = "Suppanomimi",
-        right_ear = "Assuage Earring",
+        feet = "Carmine greaves +1",
+        neck = "Lissome Necklace",
+        waist = "Reiki Yotai",
+        left_ear = "Telos Earring",
+        right_ear = "Brutal Earring",
         left_ring = "Cacoethic Ring",
         right_ring = "Supershear Ring",
         back = RudianosMantle.DPS,

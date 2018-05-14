@@ -124,10 +124,11 @@ end
 function init_precast_sets()
 -- 32% Base
     sets.precast = {
-        main="Vampirism",  --7
+        main="Emissary",  --7
         sub="Genmei Shield",
         ammo="Sapience Orb",  --2
         head="Warlock's Chapeau",  --10
+        ear1="Etiolation Earring",
         ear2="Loquacious Earring",  --2
         body="Vitiation Tabard",  --12
         hands="Leyline Gloves",  --7
@@ -275,7 +276,7 @@ function init_healing_sets()
 
     sets.Cursna = 
         set_combine(sets.recast, {
-        neck="Incanter's Torque",
+        neck="Malison Medallion",
         body="Vitiation Tabard",
         ring1="Ephedra Ring",
         ring2="Ephedra Ring",
@@ -387,8 +388,8 @@ function init_idle_sets()
         ammo="Homiliary",
         head="Vitiation Chapeau",
         neck="Twilight Torque",
-        ear1="Genmei Earring",
-        ear2="Merman's earring",
+        ear1="Etiolation Earring",
+        ear2="Genmei Earring",
         body="Jhakri Robe +1",
         hands="Serpentes Cuffs",
         ring1="Vocane Ring",
@@ -416,7 +417,7 @@ function init_idle_sets()
     sets.idle.mdt = 
         set_combine(sets.idle, {
             head="Welkin Crown",
-            ear1="Merman's earring",
+            ear1="Etiolation Earring",
             ear2="Merman's earring",
             body="Artsieq jubbah",
             hands="Leyline Gloves",

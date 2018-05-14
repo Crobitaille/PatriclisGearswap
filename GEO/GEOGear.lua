@@ -13,69 +13,69 @@ function init_gear_sets()
 end
 
 function init_gear_variables()
-
-    GeomancyHead = 'Geomancy Galero +1'
-    GeomancyBody = 'Geomancy Tunic +1'
-    GeomancyHands = 'Geomancy Mitaines +1'
-    GeomancyLegs = 'Geomancy Pants +1'
-    GeomancyFeet = 'Geomancy Sandals +1'
-
+    
+    GeomancyHead = "Geomancy Galero +1"
+    GeomancyBody = "Geomancy Tunic +1"
+    GeomancyHands = "Geomancy Mitaines +1"
+    GeomancyLegs = "Geomancy Pants +1"
+    GeomancyFeet = "Geomancy Sandals +1"
+    
     BaguaHead = {name = "Bagua Galero +1", augments = {'Enhances "Primeval Zeal" effect'}}
     BaguaBody = {name = "Bagua Tunic +1", augments = {'Enhances "Bolster" effect'}}
     BaguaHands = {name = "Bagua Mitaines +1", augments = {'Enhances "Curative Recantation" effect'}}
     BaguaLegs = {name = "Bagua Pants +1", augments = {'Enhances "Mending Halation" effect'}}
     BaguaFeet = {name = "Bagua Sandals +1", augments = {'Enhances "Radial Arcana" effect'}}
-
-    AzimuthHead = 'Azimuth Hood +1'
-    AzimuthBody = 'Azimuth Coat +1'
-    AzimuthHands = 'Azimuth Gloves'
-    AzimuthLegs = 'Azimuth Tights +1'
-    AzimuthFeet = 'Azimuth Gaiters +1'
-
+    
+    AzimuthHead = "Azimuth Hood +1"
+    AzimuthBody = "Azimuth Coat +1"
+    AzimuthHands = "Azimuth Gloves"
+    AzimuthLegs = "Azimuth Tights +1"
+    AzimuthFeet = "Azimuth Gaiters +1"
+    
     VanyaHead = {}
     VanyaHead.FastCast = {name = "Vanya Hood", augments = {'MP+50', '"Fast Cast"+10', 'Haste+2%'}}
     VanyaHead.ConserveMP = {name = "Vanya Hood", augments = {'MND+10', 'Spell interruption rate down +15%', '"Conserve MP"+6'}}
     VanyaHead.CurePotency = {name = "Vanya Hood", augments = {'MP+50', '"Cure" potency +7%', 'Enmity-6'}}
-
+    
     VanyaBody = {}
     VanyaBody.ConserveMP = {name = "Vanya Robe", augments = {'MND+10', 'Spell interruption rate down +15%', '"Conserve MP"+6'}}
-
+    
     VanyaLegs = {}
     VanyaLegs.ConserveMP = {name = "Vanya Slops", augments = {'MND+10', 'Spell interruption rate down +15%', '"Conserve MP"+6'}}
-
+    
     VanyaFeet = {}
     VanyaFeet.CureSpeed = {name = "Vanya Clogs", augments = {'"Cure" potency +5%', '"Cure" spellcasting time -15%', '"Conserve MP"+6'}}
-
+    
     MerlinicBody = {}
-    MerlinicBody.MagicBurst = {name = "Merlinic Jubbah", augments = {'Mag. Acc.+10 "Mag.Atk.Bns."+10', 'Magic burst dmg.+10%', 'MND+7', 'Mag. Acc.+10', '"Mag.Atk.Bns."+5',}}
-
+    MerlinicBody.MagicBurst = {name = "Merlinic Jubbah", augments = {'Mag. Acc.+10 "Mag.Atk.Bns."+10', 'Magic burst dmg.+10%', 'MND+7', 'Mag. Acc.+10', '"Mag.Atk.Bns."+5', }}
+    
     MerlinicLegs = {}
-    MerlinicLegs.MagicAttack = {name = "Merlinic Shalwar", augments = {'Mag. Acc.+25 "Mag.Atk.Bns."+25', '"Drain" and "Aspir" potency +8', 'INT+2', 'Mag. Acc.+13', '"Mag.Atk.Bns."+3',}}
-
+    MerlinicLegs.MagicAttack = {name = "Merlinic Shalwar", augments = {'Mag. Acc.+25 "Mag.Atk.Bns."+25', '"Drain" and "Aspir" potency +8', 'INT+2', 'Mag. Acc.+13', '"Mag.Atk.Bns."+3', }}
+    
     MerlinicFeet = {}
-    MerlinicFeet.MagicAttack = 'Merlinic Crackows'
-
+    MerlinicFeet.MagicAttack = {name = "Merlinic Crackows"}
+    
     PsyclothLegs = {}
-    PsyclothLegs.PetDT = {name = "Psycloth Lappas", augments = {'MP+80', 'Mag. Acc.+15', '"Fast Cast"+7',}}
-
+    PsyclothLegs.PetDT = {name = "Psycloth Lappas", augments = {'MP+80', 'Mag. Acc.+15', '"Fast Cast"+7', }}
+    
     NantosueltaCape = {}
-    NantosueltaCape.Idle = {name = "Nantosuelta's Cape", augments = {'Eva.+20 /Mag. Eva.+20', 'Pet: "Regen"+10', 'Pet: Damage taken -5%',}}
-
+    NantosueltaCape.Idle = {name = "Nantosuelta's Cape", augments = {'Eva.+20 /Mag. Eva.+20', 'Pet: "Regen"+10', 'Pet: Damage taken -5%', }}
+    
     LifestreamCape = {}
-    LifestreamCape.Geomancy = {name = "Lifestream Cape", augments = {'Geomancy Skill +9', 'Indi. eff. dur. +17',}}
-
+    LifestreamCape.Geomancy = {name = "Lifestream Cape", augments = {'Geomancy Skill +9', 'Indi. eff. dur. +17', }}
+    
     Rubicundity = {}
-    Rubicundity.ConserveMP = {name = "Rubicundity", augments = {'Mag. Acc.+4', '"Mag.Atk.Bns."+5', 'Dark magic skill +2', '"Conserve MP"+3',}}
-
-    MediumsSabots = {name = "Medium's Sabots", augments = {'MP+50', 'MND+8', '"Conserve MP"+6', '"Cure" potency +3%',}}
-
+    Rubicundity.ConserveMP = {name = "Rubicundity", augments = {'Mag. Acc.+4', '"Mag.Atk.Bns."+5', 'Dark magic skill +2', '"Conserve MP"+3', }}
+    
+    MediumsSabots = {name = "Medium's Sabots", augments = {'MP+50', 'MND+8', '"Conserve MP"+6', '"Cure" potency +3%', }}
+    
     DarkRing = {}
-    DarkRing.DamageTaken = {name = "Dark Ring", augments = {'Breath dmg. taken -3%', 'Magic dmg. taken -4%', 'Phys. dmg. taken -4%',}}
-
+    DarkRing.DamageTaken = {name = "Dark Ring", augments = {'Breath dmg. taken -3%', 'Magic dmg. taken -4%', 'Phys. dmg. taken -4%', }}
+    
 end
 
 function init_precast_sets()
-
+    
     sets.Precast = {}
     sets.Precast.FastCast = {
         main = 'Marin Staff +1',
@@ -92,7 +92,7 @@ function init_precast_sets()
         legs = GeomancyLegs,
         feet = 'Regal Pumps +1'
     }
-
+    
     sets.Precast.Cure = set_combine(sets.Precast.FastCast, {
         main = 'Vadose Rod',
         sub = 'Genmei Shield',
@@ -115,20 +115,20 @@ function init_precast_sets()
         legs = GeomancyLegs,
         feet = 'Regal Pumps +1'
     }
-
+    
     sets.Precast['Elemental Magic'] = set_combine(sets.Precast.FastCast, {
         hands = BaguaHands,
         ring1 = "Mallquis ring"
     })
-
+    
     sets.Precast['Enhancing Magic'] = set_combine(sets.Precast.FastCast, {
         waist = 'Siegel Sash'
     })
-
+    
     sets.Precast['Dark Magic'] = sets.Precast.FastCast
     sets.Precast['Healing Magic'] = sets.Precast.FastCast
     sets.Precast['Enfeebling Magic'] = sets.Precast.FastCast
-
+    
     sets.Precast.QuickMagic = {
         ring1 = 'Lebeche Ring',
         waist = 'Witful Belt',
@@ -152,13 +152,13 @@ function init_precast_sets()
     sets.Precast['Radial Arcana'] = {
         feet = BaguaFeet
     }
-
+    
     sets.Precast.Weaponskill = {}
 end
 
 function init_utility_sets()
     sets.Midcast = {}
-
+    
     sets.Midcast.ConserveMP = {
         main = Rubicundity.ConserveMP,
         sub = "Genmei Shield",
@@ -176,7 +176,7 @@ function init_utility_sets()
         legs = VanyaLegs.ConserveMP,
         feet = VanyaFeet.ConserveMP
     }
-
+    
     sets.Midcast.FastRecast = {
         main = 'Marin Staff +1',
         sub = "Achaq grip",
@@ -214,7 +214,7 @@ function init_geomancy_sets()
         right_ring = "Stikini Ring",
         back = LifestreamCape.Geomancy
     }
-
+    
     sets.Midcast.Geocolure = {
         main = Rubicundity.ConserveMP,
         sub = "Genmei Shield",
@@ -269,20 +269,20 @@ function init_healing_sets()
         legs = VanyaLegs.ConserveMP,
         feet = VanyaFeet.CureSpeed
     }
-
+    
 end
 
 function init_enhancing_sets()
     sets.Midcast['Enhancing Magic'] = sets.Midcast.ConserveMP
-
+    
     sets.Midcast['Regen'] = set_combine(sets.Midcast.ConserveMP, {
         main = "Bolelabunga"
     })
-
+    
     sets.Midcast['Refresh'] = set_combine(sets.Midcast.ConserveMP, {
         main = "Bolelabunga"
     })
-
+    
     sets.Midcast.EnhancingSkill = set_combine(sets.Midcast['Enhancing Magic'], {
         head = "Befouled Crown",
         neck = "Incanter's Torque",
@@ -292,18 +292,18 @@ function init_enhancing_sets()
         ring2 = "Stikini Ring",
         back = "Perimede Cape"
     })
-
+    
     sets.Midcast['Aquaveil'] = set_combine(sets.Midcast['Enhancing Magic'], {
         main = "Vadose Rod",
         sub = "Genmei Shield",
         waist = "Emphatikos Rope",
     })
-
+    
     sets.Midcast['Stoneskin'] = set_combine(sets.Midcast['Enhancing Magic'], {
         neck = "Nodens Gorget",
         waist = "Siegel Sash",
     })
-
+    
     sets.Midcast['Blink'] = sets.Midcast['Enhancing Magic']
 end
 
@@ -325,7 +325,7 @@ function init_enfeebling_sets()
         feet = MediumsSabots,
         ring2 = "Stikini Ring",
     }
-
+    
     sets.Midcast.EnfeebleMND = {
         main = "Marin Staff +1",
         sub = "Mephitis grip",
@@ -376,10 +376,9 @@ end
 function init_elemental_sets()
     --Geomancy Galero For NUking ... Cardinal CHant+2 ... Worth it?
     --Only for Magic Burst Set?
-
     
     sets.Midcast.Nuke = {}
-
+    
     sets.Midcast.Nuke['LowAcc'] = {
         main = "Contemplator",
         sub = "Niobid Strap",
@@ -399,12 +398,12 @@ function init_elemental_sets()
     }
     sets.Midcast.Nuke['MedAcc'] = sets.Midcast.Nuke['LowAcc']
     sets.Midcast.Nuke['HighAcc'] = sets.Midcast.Nuke['LowAcc']
-
+    
     sets.Midcast.NukeObi = {
         waist = 'Fucho-no-obi',
         back = 'Twilight Cape'
     }
-
+    
     sets.Midcast.MagicBurst = {
         body = MerlinicBody.MagicBurst, --10
         neck = "Mizukage-no-Kubikazari", --10
@@ -413,7 +412,7 @@ function init_elemental_sets()
         ring1 = "Mujin Band", -- 5 II
         ring2 = "Locus Ring" -- 5
     }
-
+    
 end
 
 function init_idle_sets()
@@ -451,7 +450,7 @@ function init_idle_sets()
         legs = "Assid. Pants +1",
         waist = "Fucho-no-Obi"
     })
-
+    
     sets.Idle['PDT'] = set_combine(sets.Idle.Luopan, {
         main = "Bolelabunga",
         sub = "Genmei Shield",
@@ -465,7 +464,7 @@ function init_idle_sets()
         right_ring = DarkRing.DamageTaken,
         back = "Solemnity Cape"
     })
-
+    
     sets.Idle['MDT'] = set_combine(sets.Idle.Luopan, {
         main = "Bolelabunga",
         sub = "Genmei Shield",
@@ -498,5 +497,5 @@ function init_misc_sets()
         legs = empty,
         feet = empty,
     }
-
+    
 end
