@@ -1,7 +1,7 @@
 function get_sets()
-    include('SCH/schGear.lua')
-    include('SCH/schMaps.lua')
-        include('organizer-lib')
+    include('Gear/SCH.lua')
+    include('Maps/SCH.lua')
+    include('./Libs/HelperFunctions.lua')
 
     job_setup()
     load_sch_maps()

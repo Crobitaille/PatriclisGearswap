@@ -1,0 +1,17 @@
+sets.exported={
+    main={ name="Ichigohitofuri", augments={'DMG:+30','STR+20','Accuracy+15',}},
+    sub="Utu Grip",
+    ammo="Knobkierrie",
+    head="Flam. Zucchetto +2",
+    body="Flamma Korazin +2",
+    hands="Flam. Manopolas +1",
+    legs="Hiza. Hizayoroi +1",
+    feet="Flam. Gambieras +2",
+    neck="Asperity Necklace",
+    waist="Chuq'aba Belt",
+    left_ear="Brutal Earring",
+    right_ear="Telos Earring",
+    left_ring="Petrov Ring",
+    right_ring="Hetairoi Ring",
+    back={ name="Takaha Mantle", augments={'STR+3','"Zanshin"+2','"Store TP"+2','Meditate eff. dur. +6',}},
+}

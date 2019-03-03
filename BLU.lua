@@ -1,9 +1,11 @@
 function get_sets()
-    include('BLU/BLUGear2.lua')
-    include('BLU/BLUMaps2.lua')
-    include('PatLibs/TextBoxLib.lua')
-    include('PatLibs/HelperFunctions.lua')
-    include('MoteLibs/Modes.lua')
+    include('./Gear/CommonGear.lua')    
+    include('Gear/BLU.lua')
+    include('Maps/BLU.lua')
+    include('Libs/TextBoxLib.lua')
+    include('Libs/HelperFunctions.lua')
+    include('Libs/MoteLibs/Modes.lua')
+    include('Libs/PatsAutoskillchain.lua')
     
     job_setup()
     load_gear_sets()
@@ -24,8 +26,8 @@ function job_setup()
     lock_weapons = true
     lock_cape = false
     lock_defense = false
-    fast_pants = false
-
+    movespeed = false
+    
     weapon_lock(true)
     
     idle_mode = M{}
@@ -49,21 +51,24 @@ function job_setup()
     send_command('bind @f9 gs c LockWeapons') --Toggles weapon switching
     send_command('bind @f10 gs c LockDefense') --Toggles locking when in defense mode
     send_command('bind @f12 gs c LockCape') --Toggles CP cape
-    send_command('bind @f11 gs c FastPants') --Toggles keeping fast pants on all idle sets
+    send_command('bind @f11 gs c Movespeed') --Toggles keeping fast pants on all idle sets
     
-    send_command('bind @9 gs c MELEE') --Equips Melee Weapons and disables weapon switching
+    send_command('bind @7 gs c PIERCE') --Equips Melee Weapons and disables weapon switching
+    send_command('bind @8 gs c BLUNT') --Equips Melee Weapons and disables weapon switching
+    send_command('bind @9 gs c SLASH') --Equips Melee Weapons and disables weapon switching
     send_command('bind @0 gs c MAGIC') --Equips Magic Weapons and enables weapon switching
     
     --Textbox Stuff--
     local str = 'BLU Info\n' ..
-    '-------------------------\n' ..
+    '--------------------------\n' ..
     'Combat Mode  : ${cbmode|(None)}\n' ..
     'Idle Mode    : ${idlemode|(None)}\n' ..
-    'Weapon Lock  : ${defenselock|(None)}\n' ..
-    'Defense Lock : ${fastpants|(None)}' ..
+    'Weapon Lock  : ${weaponlock|(None)}\n' ..
+    'Defense Lock : ${defenselock|(None)}\n' ..
     'Cape Lock    : ${capelock|(None)}\n' ..
-    'Fast Pants   : ${fastpants|(None)}' 
-    textbox = CreateTextBox(str, 1200, 750)
+    'Fast Pants   : ${movespeed|(None)}\n' ..
+    'Skillchain   : ${skillchainmode|(None)}'
+    textbox = CreateTextBox(str, 1190, 770)
     textbox:show()
     update_info_box()
 end
@@ -78,17 +83,21 @@ function user_unload()
     send_command('unbind @f10')
     send_command('unbind @f11')
     send_command('unbind @f12')
-
+    
+    send_command('unbind @7')
+    send_command('unbind @8')
     send_command('unbind @9')
-    send_command('unbind @10')
+    send_command('unbind @0')
 end
 
 function precast(spell)
     if combat_mode ~= "PDT" and combat_mode ~= "MDT" and lock_defense ~= true then
-        add_to_chat(104, 'Type: ' .. spell.type)
-        add_to_chat(104, 'Action_Type: ' .. spell.action_type)
-        handle_default_precast(spell)
-        if buffactive['Reive Mark'] and spell.type == 'WeaponSkill' then
+    if (spell.type == 'WeaponSkill' and (player.tp < 1000 or spell.target.distance > 5)) then
+        cancel_spell()
+    elseif not HandleSkillchainPrecast(spell) then
+            handle_default_precast(spell)
+        end
+        if buffactive['Reive Mark'] then
             equip(sets.reive)
         end
     end
@@ -126,6 +135,9 @@ function midcast(spell)
             end
         end
     end
+    if (spell.type == 'WeaponSkill') then
+        HandleMidcastSkillchain()
+    end
     -- if world.day_element == spell.element or world.weather_element == spell.element then
     --     equip(sets.weather)
     -- end
@@ -156,15 +168,25 @@ function self_command(command)
         weapon_lock(not lock_weapons)
     elseif (command == "LockDefense") then
         lock_defense = not lock_defense
-    elseif (command == "FastPants") then
-        fast_pants = not fast_pants
-    elseif (command == "MELEE") then
+    elseif (command == "Movespeed") then
+        movespeed = not movespeed
+    elseif (command == "SLASH") then
         weapon_lock(false)
-        equip(sets.weapons.melee)
+        equip(sets.weapons.slashing)
+        weapon_lock(true)
+    elseif (command == "PIERCE") then
+        weapon_lock(false)
+        equip(sets.weapons.piercing)
+        weapon_lock(true)
+    elseif (command == "BLUNT") then
+        weapon_lock(false)
+        equip(sets.weapons.blunt)
         weapon_lock(true)
     elseif (command == "MAGIC") then
         weapon_lock(false)
         equip(sets.weapons.magic)
+    else
+        CheckCommands(command)
     end
     status_change(player.status)
     update_info_box()
@@ -176,13 +198,13 @@ function status_change(new, tab, old)
         if Town:contains(world.zone) then
             equip(sets.idle.town)
         end
-        if fast_pants == true then
+        if movespeed == true then
             equip({legs = CarmineLegs.Accuracy})
         end
     elseif new == 'Engaged' then
         equip(sets.engaged[combat_mode[combat_mode.current].current])
     end
-    if buffactive['Reive Mark'] and spell.type == 'WeaponSkill' then
+    if buffactive['Reive Mark'] then
         equip(sets.reive)
     end
 end
@@ -192,11 +214,12 @@ function update_info_box()
     textbox.idlemode = idle_mode.current
     textbox.weaponlock = bool_to_string(lock_weapons)
     textbox.capelock = bool_to_string(lock_cape)
-    textbox.fastpants = bool_to_string(fast_pants)
+    textbox.movespeed = bool_to_string(movespeed)
     textbox.defenselock = bool_to_string(lock_defense)
+    textbox.skillchainmode = bool_to_string(use_skillchain)
 end
 
-function weapon_lock(lock) 
+function weapon_lock(lock)
     if lock then
         disable("main")
         disable("sub")
@@ -206,3 +229,7 @@ function weapon_lock(lock)
     end
     lock_weapons = lock
 end
+
+windower.register_event('zone change', function()
+status_change(player.status)
+end)

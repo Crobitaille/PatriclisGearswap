@@ -1,0 +1,17 @@
+sets.exported={
+    main="Bolelabunga",
+    sub="Genmei Shield",
+    range="Dunna",
+    head="Azimuth Hood +1",
+    body={ name="Bagua Tunic +1", augments={'Enhances "Bolster" effect',}},
+    hands="Geo. Mitaines +1",
+    legs="Assid. Pants +1",
+    feet="Geo. Sandals +1",
+    neck="Incanter's Torque",
+    waist="Fucho-no-Obi",
+    left_ear="Infused Earring",
+    right_ear="Handler's Earring +1",
+    left_ring="Stikini Ring",
+    right_ring="Stikini Ring",
+    back={ name="Lifestream Cape", augments={'Geomancy Skill +9','Indi. eff. dur. +17',}},
+}

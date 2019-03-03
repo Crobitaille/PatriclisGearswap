@@ -14,9 +14,9 @@
 -- Includes files and makes calls to load spell maps & gear sets
 ]]--
 function get_sets()
-    include('PLD/PLDGear.lua')
-    include('PLD/PLDMaps.lua')
-    include('HelperFunctions.lua')
+    include('Gear/PLD2.lua')
+    include('Maps/PLD2.lua')
+    include('./Libs/HelperFunctions.lua')
     
     
     

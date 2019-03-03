@@ -1,0 +1,17 @@
+sets.exported={
+    main="Bolelabunga",
+    sub="Genmei Shield",
+    range="Dunna",
+    head={ name="Selenian Cap", augments={'Attack+3','Pet: Damage taken -10%','Attack+3','Pet: "Regen"+1',}},
+    body="Jhakri Robe +1",
+    hands="Geo. Mitaines +1",
+    legs={ name="Psycloth Lappas", augments={'MP+80','Mag. Acc.+15','"Fast Cast"+7',}},
+    feet={ name="Bagua Sandals +1", augments={'Enhances "Radial Arcana" effect',}},
+    neck="Twilight Torque",
+    waist="Isa Belt",
+    left_ear="Rimeice Earring",
+    right_ear="Handler's Earring +1",
+    left_ring="Vocane Ring",
+    right_ring="Defending Ring",
+    back={ name="Nantosuelta's Cape", augments={'Eva.+20 /Mag. Eva.+20','Pet: "Regen"+10','Pet: Damage taken -5%',}},
+}

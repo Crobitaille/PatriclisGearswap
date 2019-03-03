@@ -1,8 +1,8 @@
 function get_sets()
 
-    include('RDM/rdmGear.lua')
-    include('RDM/rdmMaps.lua')
-        include('organizer-lib')
+    include('Gear/RDM.lua')
+    include('Maps/RDM.lua')
+    include('./Libs/HelperFunctions.lua')
 
     job_setup()
     load_rdm_maps()

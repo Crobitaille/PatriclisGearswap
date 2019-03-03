@@ -1,41 +1,70 @@
 function get_sets()
-    include('GEO/GEOGear.lua')
-    include('GEO/GEOMaps.lua')
-    include('HelperFunctions.lua')
+    include('Gear/GEO.lua')
+    include('Maps/GEO.lua')
+    include('Libs/TextBoxLib.lua')
+    include('Libs/HelperFunctions.lua')
+    include('Libs/MoteLibs/Modes.lua')
     init_gear_sets()
     load_geo_maps()
     job_setup()
 end
 
 function job_setup()
-    QuickMagic = false
-    MoveSpeed = true
-    AutoEcho = false
-    Burst = false
-    Obi = true
-
-    MaccIndex = 1
-    IdleIndex = 1
-
-    PDT = false
-    MDT = false
-
-    MaccArray = {"LowAcc", "MedAcc", "HighAcc"}
-    IdleArray = {"Luopan", "Refresh"}
-
-    send_command('bind f9 gs c Macc')
-    send_command('bind f10 gs c PDT')
-    send_command('bind f11 gs c MDT')
-    send_command('bind f12 gs c Idle')
+    lock_weapons = false
+    lock_cape = false
+    lock_defense = false
+    auto_echo = true
+    movespeed = false
+    burst = false
+    obi = true    
     
-    send_command('bind ^f9 gs c AutoEcho')
-    send_command('bind ^f10 gs c Burst')
-    send_command('bind ^f11 gs c Obi')
-    send_command('bind ^f12 gs c MoveSpeed')
+    weapon_lock(false)
+    
+    idle_mode = M{}
+    cast_mode = M{}
+    combat_mode = M{}
+    combat_mode["TP"] = M{}
+    combat_mode["PDT"] = M{}
+    combat_mode["MDT"] = M{}
+    
+    idle_mode:options("Luopan", "Hybrid", "PDT", "MDT", "MEVA", "Refresh")
+    cast_mode:options("Matk", "Macc")  
+    combat_mode:options("TP", "MDT", "PDT")
+    combat_mode["TP"]:options("DW0")
+    combat_mode["PDT"]:options("PDT")
+    combat_mode["MDT"]:options("MDT", "MEVA")
+      
+    --Keybinds--
+    send_command('bind f9 gs c TP') --Equips / Toggles TP Sets
+    send_command('bind f10 gs c PDT') --Equips / Toggles PDT Sets
+    send_command('bind f11 gs c MDT') --Equips / Toggles MDT Sets
+    send_command('bind f12 gs c IDLE') --Toggles Idle Sets
+    
+    send_command('bind @f9 gs c LockWeapons') --Toggles weapon switching
+    send_command('bind @f10 gs c LockDefense') --Toggles locking when in defense mode
+    send_command('bind @f11 gs c Movespeed') --Toggles keeping fast pants on all idle sets
+    send_command('bind @f12 gs c LockCape') --Toggles CP cape
 
-    send_command('bind !f9 gs c QuickMagic')
+    send_command('bind !f12 gs c CAST')
+    send_command('bind !f11 gs c BURST')
+    send_command('bind !f10 gs c ECHO')
+    send_command('bind !f9 gs c OBI')
 
-    --sets the default idle mode to refresh
+    local str = 'GEO Info\n' ..
+    '--------------------------\n' ..
+    'Combat Mode  : ${cbmode|(None)}\n' ..
+    'Cast Mode    : ${castmode|(None)}\n' ..
+    'Idle Mode    : ${idlemode|(None)}\n' ..
+    'Weapon Lock  : ${weaponlock|(None)}\n' ..
+    'Defense Lock : ${defenselock|(None)}\n' ..
+    'Cape Lock    : ${capelock|(None)}\n' ..
+    'Movespeed    : ${movespeed|(None)}\n' ..
+    'Magic Burst  : ${magicburstmode|(None)}\n' ..
+    'Obi Mode     : ${obimode|(None)}'
+    textbox = CreateTextBox(str, 1190, 700)
+    textbox:show()
+    update_info_box()
+
 
     define_geomancy_values()
 end
@@ -60,7 +89,7 @@ end
 function pretarget(spell, action)
     if spell.action_type == 'Magic' and buffactive.silence then -- Auto Use Echo Drops If You Are Silenced --
         cancel_spell()
-        if AutoEcho == true then
+        if auto_echo == true then
             send_command('input /item "Echo Drops" <me>')
         end
     elseif spell.type == "WeaponSkill" and spell.target.distance > 5 and player.status == 'Engaged' then -- Cancel WS If You Are Out Of Range --
@@ -71,88 +100,55 @@ function pretarget(spell, action)
 end
 
 function precast(spell, action)
-    if spell.action_type == 'Magic' then
-        Precast = {}
-        if spell.type == "Geomancy" then
-            Precast = sets.Precast['Geomancy']
-            display_geomancy_info(spell)
-        elseif spell.english:startswith('Cur') and spell.english ~= "Cursna" then
-            Precast = sets.Precast.Cure
-        elseif sets.Precast[spell.english] then -- If a set exists specificly for that spell i.e if sets.Precast['Blink'] exists, it would use that set here
-            Precast = sets.Precast[spell.english]
-        elseif sets.Precast[spell.skill] then -- If a set exists specificly for that skill i.e if sets.Precast['Enhancing Magic'] exists, it would use that set here
-            Precast = sets.Precast[spell.skill]
+    if combat_mode ~= "PDT" and combat_mode ~= "MDT" and lock_defense ~= true then
+        if spell.english:startswith('Cur') and spell.english ~= "Cursna" then
+            equip(sets.precast.cure)
         else
-            Precast = sets.Precast.FastCast
+            handle_default_precast(spell)
         end
-        if QuickMagic then
-            Precast = set_combine(Precast, sets.Precast.QuickMagic)
-        end
-        if spell.english == "Stoneskin" then
-            if buffactive.Stoneskin then
-                send_command('cancel stoneskin')
-            end
-        end
-        equip(Precast)
-    elseif spell.type == 'JobAbility' then
-        if sets.Precast[spell.english] then -- If a set exists specificly for that ability i.e if sets.Precast['Blaze of Glory'] exists, it would use that set here
-            add_to_chat(104, '<--' .. spell.english .. ' Precast-->')
-            equip(sets.Precast[spell.english])
-        end
-    elseif spell.type == 'Weaponskill' then
-        if sets.Precast[spell.english] then -- If a set exists specificly for that Weapskill i.e if sets.Precast['True Strike'] exists, it would use that set here
-            add_to_chat(104, '<--' .. spell.english .. ' Precast-->')
-            equip(sets.Precast[spell.english])
-        else
-            equip(sets.Precast.Weaponskill)
-        end
+        display_geomancy_info(spell)
+        cancel_conflicting_buffs(spell)
     end
 end
 
 function midcast(spell, action)
-    if spell.action_type == 'Magic' then
-        Gear = {}
+    if combat_mode ~= "PDT" and combat_mode ~= "MDT" and lock_defense ~= true then
         if spell.type == "Geomancy" then
             if spell.english:startswith('Indi') then
-                equip(sets.Midcast.Indicolure)
+                equip(sets.midcast.Indicolure)
             else
-                equip(sets.Midcast.Geocolure)
-            end
-        elseif spell.skill == "Elemental Magic" then
-            Gear = sets.Midcast.Nuke[MaccArray[MaccIndex]]
-            add_to_chat(104, '<--Elemental Magic ' .. MaccArray[MaccIndex] .. ' Midcast-->')
-            if Burst == true then
-                Gear = set_combine(Gear, sets.Midcast.MagicBurst)
+                equip(sets.midcast.Geocolure)
             end
         elseif spell.english:startswith('Cur') and spell.english ~= "Cursna" then
-            Gear = sets.Midcast.Cure
-            if (world.day_element == spell.element or world.weather_element == spell.element) then
-                Gear = sets.Midcast.LightCure
-            else
+            equip(sets.midcast.Cure)
+        elseif spell.skill == "Elemental Magic" then
+            equip(sets.midcast.Nuke[cast_mode.current])
+            if Burst == true then
+                equip(sets.midcast.MagicBurst)
             end
         elseif spell.english:startswith('Regen') then
-            Gear = sets.Midcast['Regen']
+            equip(sets.midcast['Regen'])
         elseif spell.english:startswith('Aspir') or spell.english:startswith('Drain') then
-            Gear = sets.Midcast.DrainAspir
+            equip(sets.midcast.DrainAspir)
         elseif GeoMaps.EnfeeblingMND:contains(spell.english) then
-            Gear = sets.Midcast.EnfeebleMND
+            equip(sets.midcast.EnfeebleMND)
         elseif GeoMaps.EnfeeblingINT:contains(spell.english) then
-            Gear = sets.Midcast.EnfeebleINT
-        elseif GeoMaps.FastRecast:contains(spell.english) then
-            Gear = sets.Midcast.FastRecast
+            equip(sets.midcast.EnfeebleINT)
         elseif GeoMaps.EnhancingSkill:contains(spell.english) then
-            Gear = sets.Midcast.EnhancingSkill
-        elseif sets.Midcast[spell.english] then
-            Gear = sets.Midcast[spell.english]
-        elseif sets.Midcast[spell.skill] then
-            Gear = sets.Midcast[spell.skill]
+            equip(sets.midcast.EnhancingSkill)
+        elseif GeoMaps.FastRecast:contains(spell.english) then
+            equip(sets.midcast.FastRecast)
         else
-            Gear = sets.Midcast.ConserveMP
+            handle_default_midcast(spell)
         end
-        if Obi and (world.day_element == spell.element or world.weather_element == spell.element) and spell.skill ~= "Enhancing Magic" and spell.skill ~= "Healing Magic" then
-            Gear = set_combine(Gear, sets.Midcast.NukeObi)
+        
+        if obi and (world.day_element == spell.element or world.weather_element == spell.element) then
+            if spell.skill == "Dark Magic" or spell.skill == "Elemental Magic" or spell.skill == "Enfeebling Magic" then 
+                equip(sets.midcast.NukeObi)
+            elseif spell.english:startswith('Cur') and spell.english ~= "Cursna" then
+                equip(sets.midcast.LightCure)
+            end
         end
-        equip(Gear)
     end
 end
 
@@ -161,68 +157,55 @@ function aftercast(spell, action)
 end
 
 function self_command(command)
-    if command == 'QuickMagic' then
-        QuickMagic = not QuickMagic
-        add_to_chat(104, '<-- Quick Magic Mode: ' .. tostring(QuickMagic) .. ' -->')
-    elseif command == 'MoveSpeed' then
-        MoveSpeed = not MoveSpeed
-        add_to_chat(104, '<-- Movespeed Mode: ' .. tostring(MoveSpeed) .. ' -->')
-    elseif command == 'AutoEcho'then
-        AutoEcho = not AutoEcho
-        add_to_chat(104, '<-- Auto Echo Drops Mode: ' .. tostring(AutoEcho) .. ' -->')
-    elseif command == 'Obi' then
-        Obi = not Obi
-        add_to_chat(104, '<-- Obi Mode: ' .. tostring(Obi) .. ' -->')
-    elseif command == 'Burst' then
-        Burst = not Burst
-        add_to_chat(104, '<-- Magic Burst Mode: ' .. tostring(Burst) .. ' -->')
-    elseif command == 'Idle' then
-        if MDT or PDT then
-            MDT = false
-            PDT = false
+    if (combat_mode:contains(command)) then
+        if (combat_mode.current == command) then
+            combat_mode[combat_mode.current]:cycle()
         else
-            IdleIndex = (IdleIndex % #IdleArray) + 1
+            combat_mode:set(command)
         end
-        add_to_chat(104, 'Idle Set: '..IdleArray[IdleIndex])
-    elseif command == 'Macc' then
-        MaccIndex = (MaccIndex % #MaccArray) + 1
-        add_to_chat(104, 'Magic Accuracy Level: '..MaccArray[MaccIndex])
-    elseif command == 'PDT' then
-        PDT = not PDT
-        MDT = false
-        add_to_chat(104, '<--PDT Mode: '..tostring(PDT) .. '-->')
-    elseif command == 'MDT' then
-        MDT = not MDT
-        PDT = false
-        add_to_chat(104, '<--MDT Mode: '..tostring(MDT) .. '-->')
+    elseif (command == "IDLE") then
+        idle_mode:cycle()
+    elseif (command == "CAST") then
+        cast_mode:cycle()
+    elseif (command == "LockCape") then
+        lock_cape = not lock_cape
+        if (lock_cape) then
+            equip({back = CapacityCape})
+            disable("back")
+        else
+            enable("back")
+        end
+    elseif (command == "LockWeapons") then
+        weapon_lock(not lock_weapons)
+    elseif (command == "LockDefense") then
+        lock_defense = not lock_defense
+    elseif (command == "Movespeed") then
+        movespeed = not movespeed
+    elseif (command == 'OBI') then
+        obi = not obi
+    elseif (command == 'BURST') then
+        burst = not burst
+    elseif (command == 'ECHO') then
+        auto_echo = not auto_echo
     end
     status_change(player.status)
+    update_info_box()
 end
 
 function status_change(new, tab, old)
-    if new == 'Idle' and old ~= 'Idle' then
-        idle = {}
+    if new == 'Idle' then
+        equip(sets.idle[idle_mode.current])
         if Town:contains(world.zone) then
-            idle = set_combine(sets.Idle[IdleArray[IdleIndex]], sets.Idle.Town)
-        elseif PDT then
-            idle = sets.Idle['PDT']
-        elseif MDT then
-            idle = sets.Idle['MDT']
-        else
-            idle = sets.Idle[IdleArray[IdleIndex]]
+            equip(sets.idle.town)
         end
-        if MoveSpeed == true then
-            idle = set_combine(idle, sets.Idle.MoveSpeed)
+        if movespeed == true then
+            equip({feet = GeomancyFeet})
         end
-        equip(idle)
     elseif new == 'Engaged' then
-        if PDT then
-            equip(sets.Idle['PDT'])
-        elseif MDT then
-            equip(sets.Idle['MDT'])
-        else
-            equip(sets.Idle[IdleArray[IdleIndex]])
-        end
+        equip(sets.engaged[combat_mode[combat_mode.current].current])
+    end
+    if buffactive['Reive Mark'] then
+        equip(sets.reive)
     end
 end
 
@@ -259,8 +242,32 @@ end
 
 windower.register_event('zone change', function()
     if Town:contains(world.zone) then
-        equip(sets.Idle.Town)
+        equip(sets.idle.Town)
     else
-        equip(sets.Idle)
+        equip(sets.idle[idle_mode.current])
     end
 end)
+
+function update_info_box()
+    textbox.cbmode = combat_mode[combat_mode.current].current
+    textbox.castmode = cast_mode.current
+    textbox.idlemode = idle_mode.current
+    textbox.weaponlock = bool_to_string(lock_weapons)
+    textbox.capelock = bool_to_string(lock_cape)
+    textbox.movespeed = bool_to_string(movespeed)
+    textbox.autoecho = bool_to_string(auto_echo)
+    textbox.defenselock = bool_to_string(lock_defense)
+    textbox.magicburstmode = bool_to_string(burst)
+    textbox.obimode = bool_to_string(obi)
+end
+
+function weapon_lock(lock)
+    if lock then
+        disable("main")
+        disable("sub")
+    else
+        enable("main")
+        enable("sub")
+    end
+    lock_weapons = lock
+end

@@ -1,6 +1,6 @@
 function get_sets()
-    include('WHM/WHMGear.lua')
-    include('WHM/WHMMaps.lua')
+    include('Gear/WHM.lua')
+    include('Maps/WHM.lua')
     job_setup()
     load_whm_maps()
     init_gear_sets()
@@ -29,6 +29,9 @@ function job_setup()
     send_command('bind @8 input /ja "Afflatus Misery" <me>')
     send_command('bind @9 input /ja "Afflatus Solace" <me>')
     send_command('bind @0 input /ja "Light Arts" <me>')
+
+
+
 
     --MODES--
     idle_mode = 'IDLE'
