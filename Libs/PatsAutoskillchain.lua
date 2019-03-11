@@ -5,6 +5,9 @@
 -- Will use a skillchain set specific to the weaponskill 'sets.skillchain[spell.english]' , and if that doesn't exist will
 -- try to use a generic skillchain set sets.skillchain["Weaponskill"]
 -- Requires Ivaar's Skills.lua to function (also included in this repo)
+--
+-- This library was written to pair with a modified version of Ivaar's Skillchain Plugin 'https://github.com/Ivaar/Skillchains'
+-- The modified version of said plugin is required. I do not currently have it uploaded anywhere.
 -- 
 -- Author:  Patriclis
 -- Created: 03/05/2018 
