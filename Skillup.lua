@@ -1,5 +1,9 @@
 packets = require('packets')
 res = require 'resources'
+--This was written my smd111--
+--https://github.com/smd111/Gearswap-Skillup--
+
+
 --version 2.0.0.0 final
 ----------USER IN CODE SETTINGS----------
 ---Put the spells you want to use in these tables
