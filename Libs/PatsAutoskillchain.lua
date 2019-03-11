@@ -4,6 +4,7 @@
 -- Can be toggled on/off with f9 (changable)
 -- Will use a skillchain set specific to the weaponskill 'sets.skillchain[spell.english]' , and if that doesn't exist will
 -- try to use a generic skillchain set sets.skillchain["Weaponskill"]
+-- Requires Ivaar's Skills.lua to function (also included in this repo)
 -- 
 -- Author:  Patriclis
 -- Created: 03/05/2018 
