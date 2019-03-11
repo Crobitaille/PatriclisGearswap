@@ -1,3 +1,15 @@
+--[[
+-- PatsAutoskillchain.lua
+-- This will automagically equip skillchain gear when closing a skillchain.
+-- Can be toggled on/off with f9 (changable)
+-- Will use a skillchain set specific to the weaponskill 'sets.skillchain[spell.english]' , and if that doesn't exist will
+-- try to use a generic skillchain set sets.skillchain["Weaponskill"]
+-- 
+-- Author:  Patriclis
+-- Created: 03/05/2018 
+-- License: GNU General Public License
+]]--
+
 ValidWeaponskills = S{}
 use_skillchain = true
 send_command('bind !f9 gs c UseSkillchain')
