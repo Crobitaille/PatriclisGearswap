@@ -19,6 +19,8 @@ function DeleteTextBox(name)
 end
 
 --Formats a boolean for friendly string output
+--I have no excuse for why this function uses underscores instead of PascalCase.
+--What was I on?!??!
 function bool_to_string(b) 
     if b then
         return "True"
