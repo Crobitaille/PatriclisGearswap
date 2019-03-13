@@ -6,9 +6,10 @@
 -- try to use a generic skillchain set sets.skillchain["Weaponskill"]
 -- Requires Ivaar's Skills.lua to function (also included in this repo)
 --
--- This library was written to pair with a modified version of Ivaar's Skillchain Plugin 'https://github.com/Ivaar/Skillchains'
--- The modified version of said plugin is required. I do not currently have it uploaded anywhere.
--- 
+-- This library was written to pair with a modified version of Ivaar's Skillchain Plugin available here:
+-- https://github.com/Crobitaille/Skillchains
+-- Ivaar was the original author of the Skillchain plugin, I simply forked and modified his work. (this script however is my own doing) 
+--
 -- Author:  Patriclis
 -- Created: 03/05/2018 
 -- License: GNU General Public License
